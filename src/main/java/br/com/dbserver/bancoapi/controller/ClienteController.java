@@ -5,11 +5,11 @@ import br.com.dbserver.bancoapi.controller.dto.ClienteDTO;
 import br.com.dbserver.bancoapi.controller.dto.NovoClienteDTO;
 import br.com.dbserver.bancoapi.model.Cliente;
 import br.com.dbserver.bancoapi.repository.ClienteRepository;
+import br.com.dbserver.bancoapi.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -19,9 +19,12 @@ public class ClienteController {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    @Autowired
+    private ClienteService clienteService;
+
     @GetMapping("{id}")
     public ClienteDTO buscarPorId(@PathVariable Long id) {
-        Optional<Cliente> optionalCliente = clienteRepository.findById(id);
+        Optional<Cliente> optionalCliente = clienteService.buscarClientePeloCodigo(id);
         return optionalCliente.map(ClienteDTO::new).orElse(null);
     }
 
@@ -39,14 +42,8 @@ public class ClienteController {
     }
 
     @PutMapping("{cpf}")
-    public ClienteDTO alterar(@PathVariable String cpf, @RequestBody AlteraClienteDTO alteraCliente){
-        Optional<Cliente> optionalCliente = clienteRepository.findByCpf(cpf);
-        if(optionalCliente.isPresent()) {
-            Cliente cliente = optionalCliente.get();
-            cliente.setNome(alteraCliente.getNome());
-            clienteRepository.save(cliente);
-        }
-        return  null;
+    public Optional<Cliente> alterar(@PathVariable String cpf, @RequestBody AlteraClienteDTO alteraCliente){
+       return clienteService.atualizaClientePorCpf(cpf, alteraCliente);
     }
 
     @Transactional
