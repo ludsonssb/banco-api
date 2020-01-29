@@ -10,8 +10,8 @@ import java.time.LocalDate;
 public class ContaDTO {
 
     private Long id;
-    private Long agencia;
-    private Long conta;
+    private int agencia;
+    private int conta;
     private LocalDate dataCriacaoConta;
     private double saldo;
 

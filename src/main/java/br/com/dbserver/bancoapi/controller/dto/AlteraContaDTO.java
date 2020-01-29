@@ -5,5 +5,6 @@ import lombok.Getter;
 @Getter
 public class AlteraContaDTO {
 
-    private Long agencia;
+    private int agencia;
+    private double saldo;
 }
