@@ -62,6 +62,10 @@ public class ContaController {
 
     //Implementar path que realiza a transferencia entre contas
     //PUT
+    @PutMapping("/transferencia")
+    Optional<Conta> saqueEmConta(@RequestParam Long contaDe, @RequestParam Long contaPara, @RequestParam double vlrTransferencia){
+        return contaService.transferenciaEntreContas(contaDe,contaPara,vlrTransferencia);
+    }
 
 
 

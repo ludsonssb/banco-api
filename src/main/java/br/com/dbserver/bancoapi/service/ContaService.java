@@ -83,4 +83,22 @@ public class ContaService {
         //TODO criar exception throw new EmptyResultDataAccessException(1);
         return  null;
     }
+
+    public Optional<Conta> transferenciaEntreContas(Long contaDe, Long contaPara, double vlrTransferencia) {
+            Optional<Conta> contaDeT = contaRepository.findByConta(contaDe);
+            Optional<Conta> contaParaT = contaRepository.findByConta(contaPara);
+            Conta contaTransfDe = contaDeT.get();
+            Conta contaTransfPara = contaParaT.get();
+            if(contaDeT.isPresent() && contaParaT.isPresent() && contaTransfDe.getBloqueio() != true && contaTransfPara.getBloqueio() != true) {
+                contaTransfDe.setSaldo(contaTransfDe.getSaldo() - vlrTransferencia);
+                contaTransfPara.setSaldo(contaTransfPara.getSaldo() + vlrTransferencia);
+
+                contaRepository.save(contaTransfDe);
+                contaRepository.save(contaTransfPara);
+
+                return  contaDeT;
+            }
+            //TODO criar exception throw new EmptyResultDataAccessException(1);
+            return  null;
+    }
 }
