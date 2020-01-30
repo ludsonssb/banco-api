@@ -11,7 +11,7 @@ public class NovaContaDTO {
 
     private Long id;
     private int agencia;
-    private int conta;
+    private Long conta;
     private double saldo;
     private Cliente cliente;
 

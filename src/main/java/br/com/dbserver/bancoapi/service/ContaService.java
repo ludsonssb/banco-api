@@ -41,13 +41,33 @@ public class ContaService {
         return new ContaDTO(contaSalva);
     }
 
-    public Optional<Conta> despositoPorConta(Long contaDep, int vlrDeposito, AlteraContaDTO alteraContaDTO){
+    public Optional<Conta> despositoPorConta(Long contaDep, double vlrDeposito){
         Optional<Conta> contaDeposito = contaRepository.findByConta(contaDep);
         if(contaDeposito.isPresent()) {
             Conta conta = contaDeposito.get();
             conta.setSaldo(conta.getSaldo() + vlrDeposito);
             contaRepository.save(conta);
             return  contaDeposito;
+        }
+        //TODO criar exception throw new EmptyResultDataAccessException(1);
+        return  null;
+    }
+
+    public Optional<Conta> buscaSaldoPorConta(Long conta) {
+        Optional<Conta> contaSalva = contaRepository.findByConta(conta);
+        if (contaSalva == null) {
+            //TODO criar exception throw new EmptyResultDataAccessException(1);
+        }
+        return contaSalva;
+    }
+
+    public Optional<Conta> saquePorConta(Long contaSaq, double vlrSaque) {
+        Optional<Conta> contaSaque = contaRepository.findByConta(contaSaq);
+        if(contaSaque.isPresent()) {
+            Conta conta = contaSaque.get();
+            conta.setSaldo(conta.getSaldo() - vlrSaque);
+            contaRepository.save(conta);
+            return  contaSaque;
         }
         //TODO criar exception throw new EmptyResultDataAccessException(1);
         return  null;

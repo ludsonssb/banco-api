@@ -11,7 +11,7 @@ public class ContaDTO {
 
     private Long id;
     private int agencia;
-    private int conta;
+    private Long conta;
     private LocalDate dataCriacaoConta;
     private double saldo;
 

@@ -15,7 +15,7 @@ public class Conta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int agencia;
-    private int conta;
+    private Long conta;
     private LocalDate dataCriacaoConta;
     private double saldo;
     @NotNull

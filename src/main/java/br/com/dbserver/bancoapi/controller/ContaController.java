@@ -1,6 +1,7 @@
 package br.com.dbserver.bancoapi.controller;
 
 import br.com.dbserver.bancoapi.controller.dto.*;
+import br.com.dbserver.bancoapi.model.Cliente;
 import br.com.dbserver.bancoapi.model.Conta;
 import br.com.dbserver.bancoapi.repository.ContaRepository;
 import br.com.dbserver.bancoapi.service.ContaService;
@@ -29,16 +30,25 @@ public class ContaController {
 
     //Implementar path que realiza operação de deposito em uma conta
     //PUT
-    @PutMapping
-    Optional<Conta> depositoEmConta(@PathVariable long conta, @PathVariable int vlrDeposito, @RequestBody AlteraContaDTO alteraContaDTO){
-        return contaService.despositoPorConta(conta,vlrDeposito,alteraContaDTO);
+    @PutMapping("/deposito")
+    Optional<Conta> depositoEmConta(@RequestParam Long conta, @RequestParam double vlrDeposito){
+        return contaService.despositoPorConta(conta,vlrDeposito);
     }
 
     //Implementar path que realiza operação de consulta de saldo em uma determinada conta
     //GET
+    @GetMapping("{conta}")
+    public ContaDTO saldoPorConta(@PathVariable Long conta) {
+        Optional<Conta> saldoConta = contaService.buscaSaldoPorConta(conta);
+        return saldoConta.map(ContaDTO::new).orElse(null);
+    }
 
     //Implementar path que realiza operação de saque em uma conta
     //PUT
+    @PutMapping("/saque")
+    Optional<Conta> saqueEmConta(@RequestParam Long conta, @RequestParam double vlrSaque){
+        return contaService.saquePorConta(conta,vlrSaque);
+    }
 
     //Implementar path que realiza o bloqueio de uma conta
     //PUT
