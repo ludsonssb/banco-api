@@ -34,7 +34,6 @@ public class ContaService {
     }
 
     public ContaDTO salvarConta(NovaContaDTO novaContaDTO) {
-
         validaCliente(novaContaDTO);
         Conta conta = novaContaDTO.converterConta();
         Conta contaSalva = contaRepository.save(conta);
@@ -43,8 +42,8 @@ public class ContaService {
 
     public Optional<Conta> despositoPorConta(Long contaDep, double vlrDeposito){
         Optional<Conta> contaDeposito = contaRepository.findByConta(contaDep);
-        if(contaDeposito.isPresent()) {
-            Conta conta = contaDeposito.get();
+        Conta conta = contaDeposito.get();
+        if(contaDeposito.isPresent() && conta.getBloqueio() != true) {
             conta.setSaldo(conta.getSaldo() + vlrDeposito);
             contaRepository.save(conta);
             return  contaDeposito;
@@ -63,11 +62,23 @@ public class ContaService {
 
     public Optional<Conta> saquePorConta(Long contaSaq, double vlrSaque) {
         Optional<Conta> contaSaque = contaRepository.findByConta(contaSaq);
-        if(contaSaque.isPresent()) {
-            Conta conta = contaSaque.get();
+        Conta conta = contaSaque.get();
+        if(contaSaque.isPresent() && conta.getBloqueio() != true) {
             conta.setSaldo(conta.getSaldo() - vlrSaque);
             contaRepository.save(conta);
             return  contaSaque;
+        }
+        //TODO criar exception throw new EmptyResultDataAccessException(1);
+        return  null;
+    }
+
+    public Optional<Conta> atualizarBloqueio(Long contaBlq, Boolean bloqueio) {
+        Optional<Conta> contaBloqueio = contaRepository.findByConta(contaBlq);
+        if(contaBloqueio.isPresent()) {
+            Conta conta = contaBloqueio.get();
+            conta.setBloqueio(bloqueio);
+            contaRepository.save(conta);
+            return  contaBloqueio;
         }
         //TODO criar exception throw new EmptyResultDataAccessException(1);
         return  null;

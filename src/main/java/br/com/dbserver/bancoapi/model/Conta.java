@@ -22,4 +22,5 @@ public class Conta {
     @ManyToOne
     @JoinColumn(name = "codigo_cliente")
     private Cliente cliente;
+    private Boolean bloqueio;
 }

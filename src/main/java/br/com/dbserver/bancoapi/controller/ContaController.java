@@ -52,6 +52,10 @@ public class ContaController {
 
     //Implementar path que realiza o bloqueio de uma conta
     //PUT
+    @PutMapping("/{conta}/bloqueio")
+    public void bloqueioConta(@PathVariable Long conta, @RequestBody Boolean bloqueio) {
+        contaService.atualizarBloqueio(conta, bloqueio);
+    }
 
     //Implementar path que recupera o extrato de transações de uma conta
     //GET

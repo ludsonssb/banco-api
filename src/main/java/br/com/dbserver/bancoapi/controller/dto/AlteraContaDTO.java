@@ -8,4 +8,5 @@ public class AlteraContaDTO {
 
     private int agencia;
     private double saldo;
+    private boolean bloqueio;
 }

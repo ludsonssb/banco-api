@@ -13,6 +13,7 @@ public class NovaContaDTO {
     private int agencia;
     private Long conta;
     private double saldo;
+    private boolean bloqueio;
     private Cliente cliente;
 
     public Conta converterConta() {
@@ -22,6 +23,7 @@ public class NovaContaDTO {
         conta.setDataCriacaoConta(LocalDate.now());
         conta.setSaldo(this.saldo);
         conta.setCliente(this.cliente);
+        conta.setBloqueio(this.bloqueio);
 
         return conta;
     }

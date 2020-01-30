@@ -14,6 +14,7 @@ public class ContaDTO {
     private Long conta;
     private LocalDate dataCriacaoConta;
     private double saldo;
+    private boolean bloqueio;
 
     public ContaDTO(Conta contaSalva) {
         this.id = contaSalva.getId();
@@ -21,5 +22,6 @@ public class ContaDTO {
         this.conta = contaSalva.getConta();
         this.dataCriacaoConta = contaSalva.getDataCriacaoConta();
         this.saldo = contaSalva.getSaldo();
+        this.bloqueio = contaSalva.getBloqueio();
     }
 }
