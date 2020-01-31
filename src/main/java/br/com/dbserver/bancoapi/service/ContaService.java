@@ -8,6 +8,7 @@ import br.com.dbserver.bancoapi.model.Cliente;
 import br.com.dbserver.bancoapi.model.Conta;
 import br.com.dbserver.bancoapi.repository.ClienteRepository;
 import br.com.dbserver.bancoapi.repository.ContaRepository;
+import br.com.dbserver.bancoapi.repository.LogTransacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +19,14 @@ public class ContaService {
 
     @Autowired
     private ClienteRepository clienteRepository;
-
     @Autowired
     private ContaRepository contaRepository;
-
     @Autowired
     private ClienteService clienteService;
+    @Autowired
+    private LogTransacaoService logTransacaoService;
+    @Autowired
+    private LogTransacaoRepository logTransacaoRepository;
 
     private void validaCliente(NovaContaDTO novaContaDTO) {
         Optional<Cliente> clienteDTO = null;
@@ -89,12 +92,15 @@ public class ContaService {
             Optional<Conta> contaParaT = contaRepository.findByConta(contaPara);
             Conta contaTransfDe = contaDeT.get();
             Conta contaTransfPara = contaParaT.get();
-            if(contaDeT.isPresent() && contaParaT.isPresent() && contaTransfDe.getBloqueio() != true && contaTransfPara.getBloqueio() != true) {
+            if((contaDeT.isPresent() && contaTransfDe.getBloqueio() != true) && (contaParaT.isPresent() && contaTransfPara.getBloqueio() != true)) {
                 contaTransfDe.setSaldo(contaTransfDe.getSaldo() - vlrTransferencia);
                 contaTransfPara.setSaldo(contaTransfPara.getSaldo() + vlrTransferencia);
-
                 contaRepository.save(contaTransfDe);
                 contaRepository.save(contaTransfPara);
+                logTransacaoService.salvaLogTransacao(contaTransfDe.getId(),contaTransfDe.getDataCriacaoConta(),
+                        contaTransfDe.getConta(),contaTransfDe.getSaldo());
+                logTransacaoService.salvaLogTransacao(contaTransfPara.getId(),contaTransfPara.getDataCriacaoConta(),
+                        contaTransfPara.getConta(),contaTransfPara.getSaldo());
 
                 return  contaDeT;
             }

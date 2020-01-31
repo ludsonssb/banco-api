@@ -1,24 +1,20 @@
 package br.com.dbserver.bancoapi.model;
-
-import com.sun.istack.NotNull;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
-public class Conta {
+public class LogTransacao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int agencia;
-    private Long conta;
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDateTime dataAlteracao;
+    private Long idConta;
     private LocalDate dataCriacaoConta;
+    private Long conta;
     private double saldo;
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "codigo_cliente")
-    private Cliente cliente;
-    private Boolean bloqueio;
 }

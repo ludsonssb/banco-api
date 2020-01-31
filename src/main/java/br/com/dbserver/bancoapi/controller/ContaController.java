@@ -3,8 +3,10 @@ package br.com.dbserver.bancoapi.controller;
 import br.com.dbserver.bancoapi.controller.dto.*;
 import br.com.dbserver.bancoapi.model.Cliente;
 import br.com.dbserver.bancoapi.model.Conta;
+import br.com.dbserver.bancoapi.model.LogTransacao;
 import br.com.dbserver.bancoapi.repository.ContaRepository;
 import br.com.dbserver.bancoapi.service.ContaService;
+import br.com.dbserver.bancoapi.service.LogTransacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,9 +18,10 @@ public class ContaController {
 
     @Autowired
     private ContaRepository contaRepository;
-
     @Autowired
     private ContaService contaService;
+    @Autowired
+    private LogTransacaoService logTransacaoService;
 
     //Implementar path que realiza a criação de uma conta
     //POST
@@ -64,7 +67,7 @@ public class ContaController {
     //PUT
     @PutMapping("/transferencia")
     Optional<Conta> saqueEmConta(@RequestParam Long contaDe, @RequestParam Long contaPara, @RequestParam double vlrTransferencia){
-        return contaService.transferenciaEntreContas(contaDe,contaPara,vlrTransferencia);
+            return contaService.transferenciaEntreContas(contaDe,contaPara,vlrTransferencia);
     }
 
 
