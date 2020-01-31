@@ -17,4 +17,5 @@ public class LogTransacao {
     private LocalDate dataCriacaoConta;
     private Long conta;
     private double saldo;
+    private String tipoMovimentacao;
 }

@@ -24,14 +24,15 @@ public class LogTransacaoService {
     private ContaService contaService;
 
 
-    public LogTransacao salvaLogTransacao(Long idConta, LocalDate dataCriacaoConta, Long conta, double saldo) {
+    public LogTransacao salvaLogTransacao(Long idConta, LocalDate dataCriacaoConta, Long conta, double saldo, String tipoMovimentacao) {
 
-            LogTransacao x = new LogTransacao();
-            x.setIdConta(idConta);
-            x.setDataCriacaoConta(dataCriacaoConta);
-            x.setConta(conta);
-            x.setSaldo(saldo);
-            x.setDataAlteracao(LocalDateTime.now());
-            return logTransacaoRepository.save(x);
+            LogTransacao log = new LogTransacao();
+            log.setIdConta(idConta);
+            log.setDataCriacaoConta(dataCriacaoConta);
+            log.setConta(conta);
+            log.setSaldo(saldo);
+            log.setDataAlteracao(LocalDateTime.now());
+            log.setTipoMovimentacao(tipoMovimentacao);
+            return logTransacaoRepository.save(log);
     }
 }

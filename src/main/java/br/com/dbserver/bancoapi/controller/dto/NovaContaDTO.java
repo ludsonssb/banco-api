@@ -14,13 +14,14 @@ public class NovaContaDTO {
     private Long conta;
     private double saldo;
     private boolean bloqueio;
+    private LocalDate dataCriacaoConta;
     private Cliente cliente;
 
     public Conta converterConta() {
         Conta conta = new Conta();
         conta.setAgencia(this.agencia);
         conta.setConta(this.conta);
-        conta.setDataCriacaoConta(LocalDate.now());
+        conta.setDataCriacaoConta(this.dataCriacaoConta);
         conta.setSaldo(this.saldo);
         conta.setCliente(this.cliente);
         conta.setBloqueio(this.bloqueio);

@@ -98,9 +98,9 @@ public class ContaService {
                 contaRepository.save(contaTransfDe);
                 contaRepository.save(contaTransfPara);
                 logTransacaoService.salvaLogTransacao(contaTransfDe.getId(),contaTransfDe.getDataCriacaoConta(),
-                        contaTransfDe.getConta(),contaTransfDe.getSaldo());
+                        contaTransfDe.getConta(),contaTransfDe.getSaldo(), "Transferencia Debito");
                 logTransacaoService.salvaLogTransacao(contaTransfPara.getId(),contaTransfPara.getDataCriacaoConta(),
-                        contaTransfPara.getConta(),contaTransfPara.getSaldo());
+                        contaTransfPara.getConta(),contaTransfPara.getSaldo(), "Transferencia Credito");
 
                 return  contaDeT;
             }
