@@ -2,8 +2,10 @@ package br.com.dbserver.bancoapi.model;
 
 import com.sun.istack.NotNull;
 import lombok.Data;
+import lombok.Getter;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.time.LocalDate;
 
 @Entity
@@ -21,4 +23,6 @@ public class Conta {
     @JoinColumn(name = "codigo_cliente")
     private Cliente cliente;
     private Boolean bloqueio;
+
+
 }

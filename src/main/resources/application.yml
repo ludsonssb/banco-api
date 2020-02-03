@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost/banco_api?createDatabaseIfNotExist=true&&useSSL=false
+    url: jdbc:mysql://localhost/banco_api?createDatabaseIfNotExist=true&&useSSL=false&&serverTimezone=UTC
     username: root
     password: root
   jpa:

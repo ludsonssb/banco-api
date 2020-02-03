@@ -5,6 +5,7 @@ import br.com.dbserver.bancoapi.model.Conta;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Getter
 public class ContaDTO {

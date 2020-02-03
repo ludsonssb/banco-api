@@ -10,6 +10,7 @@ import br.com.dbserver.bancoapi.service.LogTransacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -62,6 +63,10 @@ public class ContaController {
 
     //Implementar path que recupera o extrato de transações de uma conta
     //GET
+    @GetMapping
+    public List<Conta> listar() {
+        return contaRepository.findAll();
+    }
 
     //Implementar path que realiza a transferencia entre contas
     //PUT

@@ -10,9 +10,12 @@ import br.com.dbserver.bancoapi.repository.ClienteRepository;
 import br.com.dbserver.bancoapi.repository.ContaRepository;
 import br.com.dbserver.bancoapi.repository.LogTransacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ContaService {
@@ -49,6 +52,8 @@ public class ContaService {
         if(contaDeposito.isPresent() && conta.getBloqueio() != true) {
             conta.setSaldo(conta.getSaldo() + vlrDeposito);
             contaRepository.save(conta);
+            logTransacaoService.salvaLogTransacao(conta.getId(),conta.getDataCriacaoConta(),
+                    conta.getConta(),conta.getSaldo(), "Deposito");
             return  contaDeposito;
         }
         //TODO criar exception throw new EmptyResultDataAccessException(1);
@@ -69,6 +74,8 @@ public class ContaService {
         if(contaSaque.isPresent() && conta.getBloqueio() != true) {
             conta.setSaldo(conta.getSaldo() - vlrSaque);
             contaRepository.save(conta);
+            logTransacaoService.salvaLogTransacao(conta.getId(),conta.getDataCriacaoConta(),
+                    conta.getConta(),conta.getSaldo(), "Saque");
             return  contaSaque;
         }
         //TODO criar exception throw new EmptyResultDataAccessException(1);
@@ -81,6 +88,8 @@ public class ContaService {
             Conta conta = contaBloqueio.get();
             conta.setBloqueio(bloqueio);
             contaRepository.save(conta);
+            logTransacaoService.salvaLogTransacao(conta.getId(),conta.getDataCriacaoConta(),
+                    conta.getConta(),conta.getSaldo(), "Bloqueio/Desbloqueio");
             return  contaBloqueio;
         }
         //TODO criar exception throw new EmptyResultDataAccessException(1);
@@ -107,4 +116,5 @@ public class ContaService {
             //TODO criar exception throw new EmptyResultDataAccessException(1);
             return  null;
     }
+
 }

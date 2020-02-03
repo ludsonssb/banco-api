@@ -1,14 +1,10 @@
 package br.com.dbserver.bancoapi.model;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Data
@@ -20,6 +16,8 @@ public class Cliente {
     private String nome;
     private String cpf;
     private LocalDate dataCadastro;
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Conta> conta;
 
     public Cliente() {
     }
