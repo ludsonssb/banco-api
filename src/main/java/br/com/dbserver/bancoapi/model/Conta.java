@@ -1,16 +1,18 @@
 package br.com.dbserver.bancoapi.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sun.istack.NotNull;
 import lombok.Data;
-import lombok.Getter;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Data
-public class Conta {
+@EqualsAndHashCode
+public class Conta implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,8 +21,9 @@ public class Conta {
     private LocalDate dataCriacaoConta;
     private double saldo;
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "codigo_cliente")
+    @JsonBackReference
     private Cliente cliente;
     private Boolean bloqueio;
 
