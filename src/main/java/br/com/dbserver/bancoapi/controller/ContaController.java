@@ -1,9 +1,7 @@
 package br.com.dbserver.bancoapi.controller;
 
 import br.com.dbserver.bancoapi.controller.dto.*;
-import br.com.dbserver.bancoapi.model.Cliente;
 import br.com.dbserver.bancoapi.model.Conta;
-import br.com.dbserver.bancoapi.model.LogTransacao;
 import br.com.dbserver.bancoapi.repository.ContaRepository;
 import br.com.dbserver.bancoapi.service.ContaService;
 import br.com.dbserver.bancoapi.service.LogTransacaoService;
@@ -75,7 +73,10 @@ public class ContaController {
             return contaService.transferenciaEntreContas(contaDe,contaPara,vlrTransferencia);
     }
 
-
+    @GetMapping("/somasaldos")
+    public SaldoContaDTO soma(){
+        return contaService.somaTotal();
+    }
 
 
 

@@ -13,8 +13,8 @@ public class LogTransacao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime dataAlteracao;
+    @Column(columnDefinition = "DATE")
+    private LocalDate dataAlteracao;
     private Long idConta;
     private LocalDate dataCriacaoConta;
     private Long conta;

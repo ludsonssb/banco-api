@@ -4,9 +4,8 @@ import lombok.Data;
 import lombok.Getter;
 
 @Data
-public class AlteraContaDTO {
+public class SaldoContaDTO {
 
-    private int agencia;
     private double saldo;
-    private boolean bloqueio;
+
 }

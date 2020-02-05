@@ -1,7 +1,6 @@
 package br.com.dbserver.bancoapi.service;
 
-import br.com.dbserver.bancoapi.controller.dto.AlteraClienteDTO;
-import br.com.dbserver.bancoapi.controller.dto.AlteraContaDTO;
+import br.com.dbserver.bancoapi.controller.dto.SaldoContaDTO;
 import br.com.dbserver.bancoapi.controller.dto.ContaDTO;
 import br.com.dbserver.bancoapi.controller.dto.NovaContaDTO;
 import br.com.dbserver.bancoapi.model.Cliente;
@@ -10,12 +9,10 @@ import br.com.dbserver.bancoapi.repository.ClienteRepository;
 import br.com.dbserver.bancoapi.repository.ContaRepository;
 import br.com.dbserver.bancoapi.repository.LogTransacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ContaService {
@@ -115,6 +112,17 @@ public class ContaService {
             }
             //TODO criar exception throw new EmptyResultDataAccessException(1);
             return  null;
+    }
+
+    public SaldoContaDTO somaTotal(){
+        SaldoContaDTO alteraContaDTO = new SaldoContaDTO();
+        List<Conta> streamContas = contaRepository.findAll();
+
+        Double somaSaldo = streamContas.stream().mapToDouble(c -> c.getSaldo()).sum();
+
+        alteraContaDTO.setSaldo(somaSaldo);
+
+        return alteraContaDTO;
     }
 
 }
