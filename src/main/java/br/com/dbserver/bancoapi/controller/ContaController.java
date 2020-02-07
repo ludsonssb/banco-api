@@ -8,6 +8,7 @@ import br.com.dbserver.bancoapi.service.LogTransacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +27,7 @@ public class ContaController {
     //POST
     @PostMapping
     public ContaDTO cadastrar(@RequestBody NovaContaDTO novaConta) {
-        ContaDTO contaSalva = contaService.salvarConta(novaConta);
+        ContaDTO contaSalva = contaService.salvar(novaConta);
         return contaSalva;
     }
 

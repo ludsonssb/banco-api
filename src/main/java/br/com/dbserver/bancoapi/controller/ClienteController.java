@@ -1,8 +1,6 @@
 package br.com.dbserver.bancoapi.controller;
 
-import br.com.dbserver.bancoapi.controller.dto.AlteraClienteDTO;
-import br.com.dbserver.bancoapi.controller.dto.ClienteDTO;
-import br.com.dbserver.bancoapi.controller.dto.NovoClienteDTO;
+import br.com.dbserver.bancoapi.controller.dto.*;
 import br.com.dbserver.bancoapi.model.Cliente;
 import br.com.dbserver.bancoapi.repository.ClienteRepository;
 import br.com.dbserver.bancoapi.service.ClienteService;
@@ -10,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -24,8 +23,7 @@ public class ClienteController {
 
     @GetMapping("{id}")
     public ClienteDTO buscarPorId(@PathVariable Long id) {
-        Optional<Cliente> optionalCliente = clienteService.buscarClientePeloCodigo(id);
-        return optionalCliente.map(ClienteDTO::new).orElse(null);
+        return clienteService.buscarClientePeloCodigo(id);
     }
 
     /*@GetMapping
@@ -52,4 +50,13 @@ public class ClienteController {
         clienteRepository.deleteByCpf(cpf);
     }
 
+    @GetMapping("/clientesIdContas")
+    List<ClienteIdContaDTO> listaClienteIdContas(){
+        return clienteService.listaClienteIdContas();
+    }
+
+    @GetMapping("/clientesSaldosContas")
+    List<ClienteSaldoContaDTO> listaClienteSaldoContas(){
+        return clienteService.listaClienteSaldoContas();
+    }
 }

@@ -1,10 +1,9 @@
 package br.com.dbserver.bancoapi.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,6 +13,7 @@ import java.util.List;
 @Entity
 @Data
 @EqualsAndHashCode
+@NoArgsConstructor
 public class Cliente implements Serializable {
 
     @Id
@@ -27,6 +27,4 @@ public class Cliente implements Serializable {
                 mappedBy = "cliente")
     private List<Conta> contas;
 
-    public Cliente() {
-    }
 }

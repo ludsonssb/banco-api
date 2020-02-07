@@ -13,11 +13,16 @@ import java.time.LocalDate;
 @Data
 @EqualsAndHashCode
 public class Conta implements Serializable {
+
+    public static final String TIPO_CONTA_DEPOSITO = "Deposito";
+    public static final String TIPO_CONTA_SAQUE = "Saque";
+    public static final String TIPO_CONTA_BLOQUEIODESBLOQUEIO = "Bloqueio/Desbloqueio";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int agencia;
-    private Long conta;
+    private Long numero;
     private LocalDate dataCriacaoConta;
     private double saldo;
     @NotNull

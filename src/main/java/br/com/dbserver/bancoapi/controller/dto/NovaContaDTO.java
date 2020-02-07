@@ -4,7 +4,7 @@ import br.com.dbserver.bancoapi.model.Cliente;
 import br.com.dbserver.bancoapi.model.Conta;
 import lombok.Getter;
 
-import java.sql.Date;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
@@ -20,7 +20,7 @@ public class NovaContaDTO {
     public Conta converterConta() {
         Conta conta = new Conta();
         conta.setAgencia(this.agencia);
-        conta.setConta(this.conta);
+        conta.setNumero(this.conta);
         conta.setDataCriacaoConta((LocalDate.now()));
         conta.setSaldo(this.saldo);
         conta.setCliente(this.cliente);

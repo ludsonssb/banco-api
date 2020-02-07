@@ -1,11 +1,10 @@
 package br.com.dbserver.bancoapi.controller.dto;
 
-import br.com.dbserver.bancoapi.model.Cliente;
 import br.com.dbserver.bancoapi.model.Conta;
 import lombok.Getter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Getter
 public class ContaDTO {
@@ -20,7 +19,7 @@ public class ContaDTO {
     public ContaDTO(Conta contaSalva) {
         this.id = contaSalva.getId();
         this.agencia = contaSalva.getAgencia();
-        this.conta = contaSalva.getConta();
+        this.conta = contaSalva.getNumero();
         this.dataCriacaoConta = contaSalva.getDataCriacaoConta();
         this.saldo = contaSalva.getSaldo();
         this.bloqueio = contaSalva.getBloqueio();

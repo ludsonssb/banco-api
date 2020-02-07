@@ -8,6 +8,6 @@ import java.util.Optional;
 public interface ContaRepository extends JpaRepository<Conta, Long> {
 
 
-    Optional<Conta> findByConta(Long conta);
+    Optional<Conta> findByNumero(Long numero);
 
    }
