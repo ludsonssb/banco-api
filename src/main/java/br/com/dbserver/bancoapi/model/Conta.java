@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 @Entity
 @Data
 @EqualsAndHashCode
+@NoArgsConstructor
 public class Conta implements Serializable {
 
     public static final String TIPO_CONTA_DEPOSITO = "Deposito";
@@ -32,5 +34,6 @@ public class Conta implements Serializable {
     private Cliente cliente;
     private Boolean bloqueio;
 
-
+    public Conta(Conta conta) {
+    }
 }

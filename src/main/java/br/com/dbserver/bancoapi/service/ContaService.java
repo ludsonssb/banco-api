@@ -1,8 +1,8 @@
 package br.com.dbserver.bancoapi.service;
 
-import br.com.dbserver.bancoapi.controller.dto.SaldoContaDTO;
 import br.com.dbserver.bancoapi.controller.dto.ContaDTO;
 import br.com.dbserver.bancoapi.controller.dto.NovaContaDTO;
+import br.com.dbserver.bancoapi.controller.dto.SaldoContaDTO;
 import br.com.dbserver.bancoapi.model.Conta;
 import br.com.dbserver.bancoapi.repository.ClienteRepository;
 import br.com.dbserver.bancoapi.repository.ContaRepository;
@@ -70,7 +70,22 @@ public class ContaService {
                     return Optional.of(conta);
                 })
                 .orElse(Optional.empty());
+    }
 
+    public Optional<Conta> buscaSaldoPorConta(Long conta) {
+        Optional<Conta> contaSalva = contaRepository.findByNumero(conta);
+        if (contaSalva.isEmpty()) {
+            //TODO criar exception throw new EmptyResultDataAccessException(1);
+        }
+        return contaSalva;
+    }
+
+
+    public SaldoContaDTO somaTotal(){
+        SaldoContaDTO alteraContaDTO = new SaldoContaDTO();
+        List<Conta> streamContas = contaRepository.findAll();
+        alteraContaDTO.setSaldo(streamContas.stream().mapToDouble(conta -> conta.getSaldo()).sum());
+        return alteraContaDTO;
     }
 
     public Optional<Conta> transferenciaEntreContas(Long contaDe, Long contaPara, double vlrTransferencia) {
@@ -93,24 +108,4 @@ public class ContaService {
             //TODO criar exception throw new EmptyResultDataAccessException(1);
             return  null;
     }
-
-    public Optional<Conta> buscaSaldoPorConta(Long conta) {
-        Optional<Conta> contaSalva = contaRepository.findByNumero(conta);
-        if (contaSalva.isEmpty()) {
-            //TODO criar exception throw new EmptyResultDataAccessException(1);
-        }
-        return contaSalva;
-    }
-
-    public SaldoContaDTO somaTotal(){
-        SaldoContaDTO alteraContaDTO = new SaldoContaDTO();
-        List<Conta> streamContas = contaRepository.findAll();
-
-        Double somaSaldo = streamContas.stream().mapToDouble(c -> c.getSaldo()).sum();
-
-        alteraContaDTO.setSaldo(somaSaldo);
-
-        return alteraContaDTO;
-    }
-
 }

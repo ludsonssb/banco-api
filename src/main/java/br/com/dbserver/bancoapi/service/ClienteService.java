@@ -1,16 +1,17 @@
 package br.com.dbserver.bancoapi.service;
 
-import br.com.dbserver.bancoapi.controller.dto.*;
+import br.com.dbserver.bancoapi.controller.dto.AlteraClienteDTO;
+import br.com.dbserver.bancoapi.controller.dto.ClienteDTO;
+import br.com.dbserver.bancoapi.controller.dto.ClienteIdContaDTO;
+import br.com.dbserver.bancoapi.controller.dto.ClienteSaldoContaDTO;
 import br.com.dbserver.bancoapi.exceptions.ClienteNaoEncontradoException;
 import br.com.dbserver.bancoapi.model.Cliente;
 import br.com.dbserver.bancoapi.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
