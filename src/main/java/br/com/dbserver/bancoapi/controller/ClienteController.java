@@ -22,7 +22,7 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @GetMapping("{id}")
-    public ClienteDTO buscarPorId(@PathVariable Long id) {
+    public ClienteResponse buscarPorId(@PathVariable Long id) {
         return clienteService.buscarClientePeloCodigo(id);
     }
 
@@ -33,10 +33,10 @@ public class ClienteController {
     }*/
 
     @PostMapping
-    public ClienteDTO cadastrar(@RequestBody NovoClienteDTO novoCliente) {
+    public ClienteResponse cadastrar(@RequestBody ClienteRequest novoCliente) {
         Cliente cliente = novoCliente.converter();
         Cliente clienteSalvo = clienteRepository.save(cliente);
-        return new ClienteDTO(clienteSalvo);
+        return new ClienteResponse(clienteSalvo);
     }
 
     @PutMapping("{cpf}")

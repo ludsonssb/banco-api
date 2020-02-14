@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
-public class NovaContaDTO {
+public class ContaRequest {
 
     private Long id;
     private int agencia;

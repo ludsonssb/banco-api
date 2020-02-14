@@ -1,7 +1,7 @@
 package br.com.dbserver.bancoapi.service;
 
-import br.com.dbserver.bancoapi.controller.dto.ContaDTO;
-import br.com.dbserver.bancoapi.controller.dto.NovaContaDTO;
+import br.com.dbserver.bancoapi.controller.dto.ContaResponse;
+import br.com.dbserver.bancoapi.controller.dto.ContaRequest;
 import br.com.dbserver.bancoapi.controller.dto.SaldoContaDTO;
 import br.com.dbserver.bancoapi.model.Conta;
 import br.com.dbserver.bancoapi.repository.ClienteRepository;
@@ -27,14 +27,14 @@ public class ContaService {
     @Autowired
     private LogTransacaoRepository logTransacaoRepository;
 
-    private void validaCliente (NovaContaDTO novaContaDTO) {
+    private void validaCliente (ContaRequest novaContaDTO) {
         clienteService.buscarClientePeloCodigo(novaContaDTO.getCliente().getId());
     }
 
-    public ContaDTO salvar(NovaContaDTO novaContaDTO) {
+    public ContaResponse salvar(ContaRequest novaContaDTO) {
         validaCliente(novaContaDTO);
         Conta conta = novaContaDTO.converterConta();
-        return new ContaDTO(contaRepository.save(conta));
+        return new ContaResponse(contaRepository.save(conta));
     }
 
     public Optional<Conta> despositoPorConta(Long contaDep, double vlrDeposito){

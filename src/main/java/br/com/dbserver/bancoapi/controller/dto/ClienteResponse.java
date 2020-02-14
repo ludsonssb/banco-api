@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Getter
-public class ClienteDTO {
+public class ClienteResponse {
 
     private Long id;
     private String cpf;
@@ -16,7 +16,7 @@ public class ClienteDTO {
     private LocalDate dataCadastro;
     private List<Conta> conta;
 
-    public ClienteDTO(Cliente clienteSalvo) {
+    public ClienteResponse(Cliente clienteSalvo) {
 
         this.id = clienteSalvo.getId();
         this.cpf = clienteSalvo.getCpf();

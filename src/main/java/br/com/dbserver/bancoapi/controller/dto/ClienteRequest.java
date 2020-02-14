@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.time.LocalDate;
 
 @Getter
-public class NovoClienteDTO {
+public class ClienteRequest {
 
     private String cpf;
     private String nome;

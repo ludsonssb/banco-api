@@ -1,7 +1,7 @@
 package br.com.dbserver.bancoapi.service;
 
 import br.com.dbserver.bancoapi.controller.dto.AlteraClienteDTO;
-import br.com.dbserver.bancoapi.controller.dto.ClienteDTO;
+import br.com.dbserver.bancoapi.controller.dto.ClienteResponse;
 import br.com.dbserver.bancoapi.controller.dto.ClienteIdContaDTO;
 import br.com.dbserver.bancoapi.controller.dto.ClienteSaldoContaDTO;
 import br.com.dbserver.bancoapi.exceptions.ClienteNaoEncontradoException;
@@ -20,9 +20,9 @@ public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    public ClienteDTO buscarClientePeloCodigo(Long id) {
+    public ClienteResponse buscarClientePeloCodigo(Long id) {
         return clienteRepository.findById(id)
-                .map(ClienteDTO::new)
+                .map(ClienteResponse::new)
                 .orElseThrow(ClienteNaoEncontradoException::new);
     }
 

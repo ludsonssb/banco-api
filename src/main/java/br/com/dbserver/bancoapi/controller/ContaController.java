@@ -8,7 +8,6 @@ import br.com.dbserver.bancoapi.service.LogTransacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,8 +25,8 @@ public class ContaController {
     //Implementar path que realiza a criação de uma conta
     //POST
     @PostMapping
-    public ContaDTO cadastrar(@RequestBody NovaContaDTO novaConta) {
-        ContaDTO contaSalva = contaService.salvar(novaConta);
+    public ContaResponse cadastrar(@RequestBody ContaRequest novaConta) {
+        ContaResponse contaSalva = contaService.salvar(novaConta);
         return contaSalva;
     }
 
@@ -41,9 +40,9 @@ public class ContaController {
     //Implementar path que realiza operação de consulta de saldo em uma determinada conta
     //GET
     @GetMapping("{conta}")
-    public ContaDTO saldoPorConta(@PathVariable Long conta) {
+    public ContaResponse saldoPorConta(@PathVariable Long conta) {
         Optional<Conta> saldoConta = contaService.buscaSaldoPorConta(conta);
-        return saldoConta.map(ContaDTO::new).orElse(null);
+        return saldoConta.map(ContaResponse::new).orElse(null);
     }
 
     //Implementar path que realiza operação de saque em uma conta

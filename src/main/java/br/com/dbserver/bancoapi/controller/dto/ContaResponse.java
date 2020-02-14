@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
-public class ContaDTO {
+public class ContaResponse {
 
     private Long id;
     private int agencia;
@@ -16,7 +16,7 @@ public class ContaDTO {
     private double saldo;
     private boolean bloqueio;
 
-    public ContaDTO(Conta contaSalva) {
+    public ContaResponse(Conta contaSalva) {
         this.id = contaSalva.getId();
         this.agencia = contaSalva.getAgencia();
         this.conta = contaSalva.getNumero();
