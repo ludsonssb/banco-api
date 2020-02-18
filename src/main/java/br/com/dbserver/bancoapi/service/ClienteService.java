@@ -6,6 +6,7 @@ import br.com.dbserver.bancoapi.controller.dto.ClienteIdContaDTO;
 import br.com.dbserver.bancoapi.controller.dto.ClienteSaldoContaDTO;
 import br.com.dbserver.bancoapi.exceptions.ClienteNaoEncontradoException;
 import br.com.dbserver.bancoapi.model.Cliente;
+import br.com.dbserver.bancoapi.model.Conta;
 import br.com.dbserver.bancoapi.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,7 @@ public class ClienteService {
         return new ClienteDTO(clienteSalvo);
     }*/
 
-    public Optional<Cliente> atualizaClientePorCpf(String cpf, AlteraClienteDTO alteraClienteDTO){
+    /*public Optional<Cliente> atualizaClientePorCpf(String cpf, AlteraClienteDTO alteraClienteDTO){
         Optional<Cliente> clienteAtualiza = clienteRepository.findByCpf(cpf);
         if(clienteAtualiza.isPresent()) {
             Cliente cliente = clienteAtualiza.get();
@@ -42,6 +43,16 @@ public class ClienteService {
         }
         //TODO criar exception throw new EmptyResultDataAccessException(1);
         return  null;
+    }*/
+
+    public Optional<Cliente> atualizaClientePorCpf(String cpf, AlteraClienteDTO alteraClienteDTO){
+        return clienteRepository.findByCpf(cpf)
+                .map(cliente -> {
+                    cliente.setNome(alteraClienteDTO.getNome());
+                    clienteRepository.save(cliente);
+                    return Optional.of(cliente);
+                })
+                .orElse(Optional.empty());
     }
 
     public List<ClienteIdContaDTO> listaClienteIdContas() {
