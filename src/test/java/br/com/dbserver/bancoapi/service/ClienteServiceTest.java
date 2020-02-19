@@ -2,6 +2,7 @@ package br.com.dbserver.bancoapi.service;
 
 import br.com.dbserver.bancoapi.BeforeTest;
 import br.com.dbserver.bancoapi.controller.dto.AlteraClienteDTO;
+import br.com.dbserver.bancoapi.controller.dto.ClienteRequest;
 import br.com.dbserver.bancoapi.controller.dto.ClienteResponse;
 import br.com.dbserver.bancoapi.exceptions.ClienteNaoEncontradoException;
 import br.com.dbserver.bancoapi.model.Cliente;
@@ -12,10 +13,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 
 
 public class ClienteServiceTest extends BeforeTest {
@@ -49,8 +53,31 @@ public class ClienteServiceTest extends BeforeTest {
     }
 
     @Test
-    public void atualizaCliente() throws InterruptedException {
+    public void atualizaCliente() {
         Cliente cliente = new Cliente();
-        Mockito.when(clienteRepository.findById(SEIS)).thenReturn(Optional.of(cliente));
+        Mockito.when(clienteRepository.findById(any())).thenReturn(Optional.of(cliente));
+        Mockito.when(clienteRepository.save(any())).thenReturn(Optional.of(cliente));
+        Optional<Cliente> result = clienteService.atualizaClientePorCpf("",any());
+        assertNotNull(result);
+    }
+
+    @Test
+    public void listaClienteAndContas() {
+        assertEquals(Collections.EMPTY_LIST, clienteService.listaClienteIdContas());
+    }
+
+    @Test
+    public void listaClienteAndSaldosInContas() {
+        assertEquals(Collections.EMPTY_LIST, clienteService.listaClienteSaldoContas());
+    }
+
+    @Test
+    public void criacaoCliente(){
+        Cliente cliente = new Cliente();
+        ClienteRequest request = new ClienteRequest();
+        request.setCpf("11122233345");
+        request.setNome("Easdasda");
+        Mockito.when(clienteRepository.save(any())).thenReturn(Optional.of(cliente));
+        assertNull(clienteService.cadastroCliente(request));
     }
 }

@@ -2,10 +2,12 @@ package br.com.dbserver.bancoapi.controller.dto;
 
 import br.com.dbserver.bancoapi.model.Cliente;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Getter
+@Setter
 public class ClienteRequest {
 
     private String cpf;

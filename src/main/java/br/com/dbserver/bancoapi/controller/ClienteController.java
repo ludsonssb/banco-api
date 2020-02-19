@@ -26,17 +26,9 @@ public class ClienteController {
         return clienteService.buscarClientePeloCodigo(id);
     }
 
-    /*@GetMapping
-    public ClienteDTO buscarTodos() {
-        List<Cliente> clientes = clienteRepository.findAll();
-        return clientes.map(ClienteDTO::new).orElse(null);
-    }*/
-
     @PostMapping
     public ClienteResponse cadastrar(@RequestBody ClienteRequest novoCliente) {
-        Cliente cliente = novoCliente.converter();
-        Cliente clienteSalvo = clienteRepository.save(cliente);
-        return new ClienteResponse(clienteSalvo);
+        return clienteService.cadastroCliente(novoCliente);
     }
 
     @PutMapping("{cpf}")
