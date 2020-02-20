@@ -84,7 +84,10 @@ public class ContaService {
     public SaldoContaDTO somaTotal(){
         SaldoContaDTO alteraContaDTO = new SaldoContaDTO();
         List<Conta> streamContas = contaRepository.findAll();
-        alteraContaDTO.setSaldo(streamContas.stream().mapToDouble(conta -> conta.getSaldo()).sum());
+        alteraContaDTO.setSaldo(streamContas
+                                    .stream()
+                                    .mapToDouble(Conta::getSaldo)
+                                    .sum());
         return alteraContaDTO;
     }
 
@@ -99,9 +102,9 @@ public class ContaService {
                 contaRepository.save(contaTransfDe);
                 contaRepository.save(contaTransfPara);
                 logTransacaoService.salvaLogTransacao(contaTransfDe.getId(),contaTransfDe.getDataCriacaoConta(),
-                        contaTransfDe.getNumero(),contaTransfDe.getSaldo(), "Transferencia Debito");
+                        contaTransfDe.getNumero(),contaTransfDe.getSaldo(), Conta.TIPO_CONTA_TRANSFERENCIADEBITO);
                 logTransacaoService.salvaLogTransacao(contaTransfPara.getId(),contaTransfPara.getDataCriacaoConta(),
-                        contaTransfPara.getNumero(),contaTransfPara.getSaldo(), "Transferencia Credito");
+                        contaTransfPara.getNumero(),contaTransfPara.getSaldo(), Conta.TIPO_CONTA_TRANSFERENCIACREDITO);
 
                 return  contaDeT;
             }

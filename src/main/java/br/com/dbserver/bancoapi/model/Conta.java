@@ -19,6 +19,8 @@ public class Conta implements Serializable {
     public static final String TIPO_CONTA_DEPOSITO = "Deposito";
     public static final String TIPO_CONTA_SAQUE = "Saque";
     public static final String TIPO_CONTA_BLOQUEIODESBLOQUEIO = "Bloqueio/Desbloqueio";
+    public static final String TIPO_CONTA_TRANSFERENCIACREDITO = "Transferencia Credito";
+    public static final String TIPO_CONTA_TRANSFERENCIADEBITO= "Transferencia Debito";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,5 +37,6 @@ public class Conta implements Serializable {
     private Boolean bloqueio;
 
     public Conta(Conta conta) {
+
     }
 }
