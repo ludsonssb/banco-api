@@ -35,7 +35,6 @@ public class ClienteController {
         return cliente != null ? ResponseEntity.ok(cliente) : ResponseEntity.notFound().build();
     }
 
-
 //    @PostMapping
 //    public ClienteResponse cadastrar(@RequestBody ClienteRequest novoCliente) {
 //        return clienteService.cadastroCliente(novoCliente);

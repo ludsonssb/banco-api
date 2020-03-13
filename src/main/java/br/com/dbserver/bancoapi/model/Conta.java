@@ -36,7 +36,11 @@ public class Conta implements Serializable {
     private Cliente cliente;
     private Boolean bloqueio;
 
-    public Conta(Conta conta) {
+    public boolean isBloqueio() {
+        return bloqueio == true;
+    }
 
+    public boolean isNaoBloqueado(){
+        return bloqueio == false;
     }
 }

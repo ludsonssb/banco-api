@@ -3,6 +3,7 @@ package br.com.dbserver.bancoapi.service;
 import br.com.dbserver.bancoapi.controller.dto.ContaResponse;
 import br.com.dbserver.bancoapi.controller.dto.ContaRequest;
 import br.com.dbserver.bancoapi.controller.dto.SaldoContaDTO;
+import br.com.dbserver.bancoapi.exceptions.ClienteNaoEncontradoException;
 import br.com.dbserver.bancoapi.model.Conta;
 import br.com.dbserver.bancoapi.repository.ClienteRepository;
 import br.com.dbserver.bancoapi.repository.ContaRepository;
@@ -39,7 +40,7 @@ public class ContaService {
 
     public Optional<Conta> despositoPorConta(Long contaDep, double vlrDeposito){
         return contaRepository.findByNumero(contaDep)
-                .filter(conta -> conta.getBloqueio() != true)
+                .filter(Conta::isNaoBloqueado)
                 .map(conta -> {
                     conta.setSaldo(conta.getSaldo() + vlrDeposito);
                     contaRepository.save(conta);
@@ -51,7 +52,7 @@ public class ContaService {
 
     public Optional<Conta> saquePorConta(Long contaSaq, double vlrSaque) {
         return contaRepository.findByNumero(contaSaq)
-                .filter(conta -> conta.getBloqueio() != true)
+                .filter(Conta::isNaoBloqueado)
                 .map(conta -> {
                     conta.setSaldo(conta.getSaldo() - vlrSaque);
                     contaRepository.save(conta);
@@ -75,11 +76,10 @@ public class ContaService {
     public Optional<Conta> buscaSaldoPorConta(Long conta) {
         Optional<Conta> contaSalva = contaRepository.findByNumero(conta);
         if (contaSalva.isEmpty()) {
-            //TODO criar exception throw new EmptyResultDataAccessException(1);
+                //TODO criar exception throw new EmptyResultDataAccessException(1);
         }
         return contaSalva;
     }
-
 
     public SaldoContaDTO somaTotal(){
         SaldoContaDTO alteraContaDTO = new SaldoContaDTO();
@@ -91,24 +91,36 @@ public class ContaService {
         return alteraContaDTO;
     }
 
-    public Optional<Conta> transferenciaEntreContas(Long contaDe, Long contaPara, double vlrTransferencia) {
-            Optional<Conta> contaDeT = contaRepository.findByNumero(contaDe);
-            Optional<Conta> contaParaT = contaRepository.findByNumero(contaPara);
-            Conta contaTransfDe = contaDeT.get();
-            Conta contaTransfPara = contaParaT.get();
-            if((contaDeT.isPresent() && contaTransfDe.getBloqueio() != true) && (contaParaT.isPresent() && contaTransfPara.getBloqueio() != true)) {
-                contaTransfDe.setSaldo(contaTransfDe.getSaldo() - vlrTransferencia);
-                contaTransfPara.setSaldo(contaTransfPara.getSaldo() + vlrTransferencia);
-                contaRepository.save(contaTransfDe);
-                contaRepository.save(contaTransfPara);
-                logTransacaoService.salvaLogTransacao(contaTransfDe.getId(),contaTransfDe.getDataCriacaoConta(),
-                        contaTransfDe.getNumero(),contaTransfDe.getSaldo(), Conta.TIPO_CONTA_TRANSFERENCIADEBITO);
-                logTransacaoService.salvaLogTransacao(contaTransfPara.getId(),contaTransfPara.getDataCriacaoConta(),
-                        contaTransfPara.getNumero(),contaTransfPara.getSaldo(), Conta.TIPO_CONTA_TRANSFERENCIACREDITO);
+    public Conta transferenciaEntreContas(Long contaDe, Long contaPara, double vlrTransferencia) {
 
-                return  contaDeT;
+        Conta contaOrigem = transferir(contaDe, vlrTransferencia, Conta.TIPO_CONTA_TRANSFERENCIADEBITO);
+        transferir(contaPara, vlrTransferencia, Conta.TIPO_CONTA_TRANSFERENCIACREDITO);
+
+        return contaOrigem;
+    }
+
+    public Conta transferir(Long contaDe, double vlrTransferencia, String tipoConta) {
+
+            Conta contaTransfDe = contaRepository.findByNumero(contaDe)
+                    .filter(Conta::isNaoBloqueado)
+                    .orElseThrow();
+
+            double debitoCreditoValor = 0;
+            if(tipoConta == Conta.TIPO_CONTA_TRANSFERENCIADEBITO) {
+                debitoCreditoValor = contaTransfDe.getSaldo() - vlrTransferencia;
             }
-            //TODO criar exception throw new EmptyResultDataAccessException(1);
-            return  null;
+            else if(tipoConta == Conta.TIPO_CONTA_TRANSFERENCIACREDITO) {
+                debitoCreditoValor = contaTransfDe.getSaldo() + vlrTransferencia;
+            }
+
+            contaTransfDe.setSaldo(debitoCreditoValor);
+
+            contaRepository.save(contaTransfDe);
+
+            logTransacaoService.salvaLogTransacao(contaTransfDe.getId(),contaTransfDe.getDataCriacaoConta(),
+                    contaTransfDe.getNumero(),contaTransfDe.getSaldo(), tipoConta);
+
+            return  contaTransfDe;
+
     }
 }
