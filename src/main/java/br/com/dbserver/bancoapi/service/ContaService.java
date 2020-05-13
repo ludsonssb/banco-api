@@ -1,9 +1,8 @@
 package br.com.dbserver.bancoapi.service;
 
-import br.com.dbserver.bancoapi.controller.dto.ContaResponse;
 import br.com.dbserver.bancoapi.controller.dto.ContaRequest;
+import br.com.dbserver.bancoapi.controller.dto.ContaResponse;
 import br.com.dbserver.bancoapi.controller.dto.SaldoContaDTO;
-import br.com.dbserver.bancoapi.exceptions.ClienteNaoEncontradoException;
 import br.com.dbserver.bancoapi.model.Conta;
 import br.com.dbserver.bancoapi.repository.ClienteRepository;
 import br.com.dbserver.bancoapi.repository.ContaRepository;
@@ -82,13 +81,13 @@ public class ContaService {
     }
 
     public SaldoContaDTO somaTotal(){
-        SaldoContaDTO alteraContaDTO = new SaldoContaDTO();
+        SaldoContaDTO somaSaldo = new SaldoContaDTO();
         List<Conta> streamContas = contaRepository.findAll();
-        alteraContaDTO.setSaldo(streamContas
+        somaSaldo.setSaldo(streamContas
                                     .stream()
                                     .mapToDouble(Conta::getSaldo)
                                     .sum());
-        return alteraContaDTO;
+        return somaSaldo;
     }
 
     public Conta transferenciaEntreContas(Long contaDe, Long contaPara, double vlrTransferencia) {
